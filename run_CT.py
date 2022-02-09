@@ -22,8 +22,8 @@ from utils import instance_metrics_CT, bag_metrics_CT, bag_labels
 # mlflow
 import mlflow
 mlruns_folder = 'mlruns'
-experiment_name = 'num_inducing_CT_review_paper_good_seed_1111'
-run_name = 'DGPmil_CT_prob_another'
+experiment_name = 'CT_review_paper'
+run_name = 'DGPMIL_8feat'
 
 # grid of hyperparams
 params_all = {"lr": [0.001],
@@ -36,6 +36,7 @@ params_all = {"lr": [0.001],
 save_path = './probs/feat_8/'
 if not os.path.exists(save_path):
     os.makedirs(save_path)
+    
 # read test
 def process_test(test_name, mean, std):
     test = pd.read_csv(DATA_PATH+test_name)
@@ -75,6 +76,7 @@ keys, values = zip(*params_all.items())
 permutations_dicts = [dict(zip(keys, v)) for v in itertools.product(*values)]
 count = 1
 
+# feature names
 RSNA_train = ['RSNA_train_0.csv', 'RSNA_train_1.csv', 'RSNAadded_2.csv', 'RSNAadded_3.csv', 'RSNA_added_4.csv']
 RSNA_test = ['CT_feature_final_8_0.csv', 'CT_feature_final_8_1.csv', 'RSNAadded_test_2.csv', 'RSNAadded_test_3.csv', 'RSNA_added_test_4.csv']
 CQ500_test = ['CQ500_0.csv', 'CQ500_1.csv', 'CQ_added_2.csv', 'CQ_added_3.csv', 'CQ_added_4.csv']
@@ -209,7 +211,8 @@ for params in permutations_dicts:#range(len(permutations_dicts)):
 
         count+=1
 
-
+    
+    # compute metrics
     mean_train_metrics_inst, std_train_metrics_inst = group_metrics(list_train_metrics_inst)
     mean_train_metrics_bag, std_train_metrics_bag = group_metrics(list_train_metrics_bag)
 
