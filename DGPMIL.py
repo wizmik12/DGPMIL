@@ -13,6 +13,7 @@ from gpytorch.likelihoods import GaussianLikelihood
 
 from gpytorch.models.deep_gps import DeepGPLayer, DeepGP
 
+# Function for predicting in batches
 def batch_means_classification(model, X):
     n_batches = max(int(X.shape[0]/1000.), 1)
     prob_list = []
@@ -24,11 +25,11 @@ def batch_means_classification(model, X):
     prob = torch.cat(prob_list, 0)
     return prob
 
-
+# Function to update the distribution of instance labels
 def update_q_y(q_y, model, X, ind_bag, T):
-    #Prob of positive class
+    # Prob of positive class
     q_n = q_y[:,1]
-    #Mean of the latent variable
+    # Mean of the latent variable
     with torch.no_grad():
         mean_f_L = []
         print("estimating labels")
@@ -56,10 +57,9 @@ def update_q_y(q_y, model, X, ind_bag, T):
                                                   2 * T[mask_bag][0] * Emax[mask_bag] - 1))
     return torch.vstack((1-q_n_estimated, q_n_estimated)).T
 
-
-
 #num_output_dims = 2
 
+# GP hidden layer class
 class DeepGPHiddenLayer(DeepGPLayer):
     def __init__(self, input_dims, output_dims, num_inducing=128, mean_type='constant'):
         if output_dims is None:
@@ -117,53 +117,7 @@ class DeepGPHiddenLayer(DeepGPLayer):
             x = torch.cat([x] + processed_inputs, dim=-1)
         return super().__call__(x, are_samples=bool(len(other_inputs)))
 
-class skip_DeepGPMIL(DeepGP):
-    def __init__(self, x_train_shape, dims, num_inducing=128):
-        # Define L hidden-layers of a L+1-layer DGP
-        #dims = dims.copy()
-        dims.append(None) # The last layer has None output_dims
-        means = (len(dims)-1)*['linear'] + ['constant'] # The last layer with constant mean
-        hidden_layers = torch.nn.ModuleList([DeepGPHiddenLayer(
-            input_dims=x_train_shape,
-            output_dims=dims[0],
-            mean_type=means[0],
-            num_inducing=num_inducing,
-            )])
-        for l in range(len(dims)-1):
-            if l == range(len(dims)-3):
-                hidden_layers.append(DeepGPHiddenLayer(
-                    input_dims=hidden_layers[-1].output_dims + input_dims,
-                    output_dims=dims[l+1],
-                    mean_type=means[l+1],
-                    num_inducing = num_inducing,
-                    ))
-
-        super().__init__()
-
-        self.hidden_layers = hidden_layers
-        self.likelihood = gpytorch.likelihoods.BernoulliLikelihood()
-
-    def forward(self, inputs):
-        output = self.hidden_layers[0](inputs)
-        for hid_layer in self.hidden_layers[1:(len(self.hidden_layers)-1)]:
-            output = hid_layer(output)
-        output = self.hidden_layers[-1](inputs, output)
-        return output
-
-    def predict(self, test_loader):
-        with torch.no_grad():
-            mus = []
-            variances = []
-            lls = []
-            for x_batch, y_batch in test_loader:
-                preds = self.likelihood(self(x_batch))
-                mus.append(preds.mean)
-                variances.append(preds.variance)
-                lls.append(self.likelihood.log_marginal(y_batch, self(x_batch)))
-
-        return torch.cat(mus, dim=-1), torch.cat(variances, dim=-1), torch.cat(lls, dim=-1)
-
-
+# DGPMIL class
 class DeepGPMIL(DeepGP):
     def __init__(self, x_train_shape, dims, num_inducing=128):
         # Define L hidden-layers of a L+1-layer DGP
