@@ -5,15 +5,6 @@ cohen_kappa_score, f1_score, accuracy_score, precision_score, recall_score, aver
 import torch
 torch.manual_seed(10)
 
-
-
-def binary_bag_labels(data):
-        prim = data["bag_label_primary"].values
-        prim[prim>1] = 1
-        secon = data["bag_label_secondary"].values
-        secon[secon>1] = 1
-        return np.logical_or(prim, secon).astype('int32')
-
 def bag_labels(bag_index, inst_labels):
     bags = np.unique(bag_index)
     labels = [inst_labels[np.where(bag_index==b)][0] for b in bags]
@@ -39,11 +30,6 @@ def predict_bags(predictions, bag_index_test):
         preds = predictions[bag_index_test==b]
         pred_bags[int(ib)] = np.max(preds)
     return np.array(pred_bags)
-
-# names = ['musk1', 'musk2', 'protein', 'elephant', 'corel_dogs',
-#         'uscb_breast_cancer', 'web_recommendation_1',
-#         'birds_brown_creeper']
-names = ['web_recommendation_1', 'birds_brown_creeper']
 
 def bag_metrics(model, X, y_true, index, subset):
     predictive_means, _, _ = model.predict(X)
