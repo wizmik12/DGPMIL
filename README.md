@@ -1,7 +1,7 @@
 # Deep Gaussian Processes for Multiple Instance Learning (DGPMIL)
 ![Approach](model_overview.png)
 
-### Code for replicating the results of the paper [Deep Gaussian Processes for Multiple Instance Learning: Application to CT Intracranial Hemorrhage Detection]()
+### Code for replicating the results of the paper [Deep Gaussian Processes for Multiple Instance Learning: Application to CT Intracranial Hemorrhage Detection](https://www.sciencedirect.com/science/article/pii/S0169260722001699)
 
 #### Citation
 ~~~
