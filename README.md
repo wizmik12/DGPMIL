@@ -5,15 +5,17 @@
 
 #### Citation
 ~~~
-@article{lopez2022dgpmil,
-  title={Deep Gaussian Processes for Multiple Instance Learning: Application to CT Intracranial Hemorrhage Detection},
-  author={L{\'o}pez-P{\'e}rez, Miguel and Wu, Yunan and Schmidt, Arne and Molina, Rafael and Katsaggelos, Aggelos K},
-  journal={Submitted to Computer Methods and Programs in Biomedicine},
-  volume={},
-  number={},
-  pages={},
-  year={2022},
-  publisher={}
+@article{LOPEZPEREZ2022106783,
+title = {Deep Gaussian processes for multiple instance learning: Application to CT intracranial hemorrhage detection},
+journal = {Computer Methods and Programs in Biomedicine},
+volume = {219},
+pages = {106783},
+year = {2022},
+issn = {0169-2607},
+doi = {https://doi.org/10.1016/j.cmpb.2022.106783},
+url = {https://www.sciencedirect.com/science/article/pii/S0169260722001699},
+author = {Miguel López-Pérez and Arne Schmidt and Yunan Wu and Rafael Molina and Aggelos K. Katsaggelos},
+keywords = {Multiple instance learning, Deep Gaussian processes, Intracranial hemorrhage detection, Weakly supervised learning},
 }
 ~~~
 
