@@ -31,13 +31,13 @@ The competitive performance at slice- and scan-level shows that DGPMIL model pro
 
 
  ## Description of the repo
- This repo contains the code used for the paper "Learning from crowds in digital pathology using scalable variational Gaussian processes". We include all the scripts for preprocessing the database as well as for the crowdsource classification.
+ This repo contains the code used for the paper "Deep Gaussian processes for multiple instance learning: Application to CT intracranial hemorrhage detection". We include all the scripts for preprocessing the database as well as for the crowdsource classification.
 
 The tree directory:
 
 - [DGPMIL.py](DGPMIL.py): It contains the model implemented in GPytorch.
 - [mll_mil.py](mll_mil.py): It contains the objective function to be optimized for the MIL problem.
-- [run_CT.py](run_CT.py): The code for running the .
+- [run_CT.py](run_CT.py): The code for running the hemorrhage detection experiment.
 - [data](data/): It contains the extracted features from the CT scan.
 - [DGPMIL_MNIST.ipynb](DGPMIL_MNIST.ipynb): It contains a quick demo on MNIST dataset which can be run in Google Colab.
 
@@ -45,7 +45,7 @@ The tree directory:
 
 ### Run demo on MNIST
 
-Check the notebook [DGPMIL_MNIST.ipynb](DGPMIL_MNIST.ipynb], this notebook can be run in Google Colab **without any previous installation**.
+Check the notebook [DGPMIL_MNIST.ipynb](DGPMIL_MNIST.ipynb), this notebook can be run in Google Colab **without any previous installation**.
 
 
 ### Run the CT scan experiment
